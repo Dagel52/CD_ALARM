@@ -1,0 +1,77 @@
+﻿<Window x:Class="CD_ALARM.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CD_ALARM"
+        mc:Ignorable="d"
+        Title="Watcher" Height="450" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Menu Grid.ColumnSpan="2" >
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Загрузить" Click="CmdLoad_Click"/>
+                    <MenuItem Header="Сохранить" Click="CmdSave_Click"/>
+                    <MenuItem Header="Добавить в автозагрузку" Click="CmdAddStartup_Click"/>
+                    <MenuItem Header="Удалить из автозагрузки" Click="CmdRemoveStartup_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <ListBox Name="lstObjects" Margin="5,34,5,5" SelectedIndex="{Binding Path=SelectedObject}" SelectionMode="Multiple">
+            </ListBox>
+
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5,2,5,10">
+                <TextBlock x:Name="Header" Text="Прогресс :" Width="63" FontSize="12" FontWeight="Medium" Visibility="Hidden"></TextBlock>
+                <ProgressBar x:Name="Progress" Height="20" Width="100" IsIndeterminate="True" Visibility="Hidden"/>
+                <Button  Padding="2" Content="Удалить" Click="CmdDeleteObject_Click"/>
+                <Button Margin="2,0,0,0"  Padding="2" Content="Добавить" Click="CmdAddObject_Click"/>
+                <Button x:Name="CompareButton" Content="Сравнить файлы"  Click="Button_CompareClick"/>
+            </StackPanel>
+        </Grid>
+        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" ResizeBehavior="PreviousAndNext" Height="5"/>
+
+        <Border Grid.Row="2" Padding="7" Margin="7" Background="LightGray">
+            <Grid  Name="AutomationObjectDetails" DataContext="{Binding ElementName=lstObjects, Path=SelectedItem}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="79*"></ColumnDefinition>
+                    <ColumnDefinition Width="116*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+
+                <Button Content="Выбрать файл Э3 на сервере" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button_ServerE3Click" Width="188" Height="25"/>
+                <TextBox Name="ServerE3" Margin="5,5,5,5" Grid.Column="1" Text="{Binding Path=ServerE3}" Grid.ColumnSpan="2"></TextBox>
+                <Button Grid.Row="1" Content="Выбрать файл Э3 на компьютере" HorizontalAlignment="Left"  Click="Button_localE3Click" Width="188" Height="25"/>
+                <TextBox Name="LocalE3" Margin="5,5,5,5" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LocalE3}" Grid.ColumnSpan="2" TextChanged="TextBox2_TextChanged"></TextBox>
+                <TextBlock Margin="7,7,7,7" Grid.Row="2">Имя объекта:</TextBlock>
+                <TextBox Name="ObjectName"  Margin="5,5,5,5" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Name}" Grid.ColumnSpan="2" TextChanged="ObjectName_TextChanged"></TextBox>
+                <TextBlock Margin="7,7,7,78" Grid.Row="3" Grid.RowSpan="2">Описание:</TextBlock>
+                <TextBox Margin="7,7,7,7" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+                         VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" 
+                         Text="{Binding Path=Description, TargetNullValue=[Описание не предоставлено]}"></TextBox>
+            </Grid>
+        </Border>
+
+
+        <Label Name="lblTime" FontSize="22" HorizontalAlignment="Right" VerticalAlignment="Top" />
+    </Grid>
+</Window>
